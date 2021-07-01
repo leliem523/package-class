@@ -14,8 +14,8 @@
     ],
     "license": "MIT",
     "require": {
-        "foostart/package-slideshow": "*",
-        "foostart/package-filemanager": "*"
+        "leliem523/package-slideshow": "*",
+        "leliem523/package-filemanager": "*"
     },
     "autoload": {
         "psr-4": {
