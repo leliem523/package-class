@@ -14,12 +14,10 @@
     ],
     "license": "MIT",
     "require": {
-        "leliem523/package-slideshow": "*",
-        "leliem523/package-filemanager": "*"
     },
     "autoload": {
         "psr-4": {
-            "leliem523\\Class\\": "/"
+            "leliem523\\package-class\\": "/"
         }
     },
     "minimum-stability": "dev"
