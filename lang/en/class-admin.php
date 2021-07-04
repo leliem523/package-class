@@ -10,7 +10,7 @@ return [
     |
     */
     'menus' => [
-        'top-menu' => 'class'
+        'top-menu' => 'classes'
     ],
 
 

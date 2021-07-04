@@ -1,4 +1,6 @@
-<?php namespace leliem523\classes\Controllers\Admin;
+<?php
+
+namespace leliem523\classes\Controllers\Admin;
 
 /*
 |-----------------------------------------------------------------------
@@ -22,7 +24,8 @@ use Foostart\Slideshow\Models\Slideshow;
 use leliem523\Classes\Validators\classValidator;
 
 
-class classAdminController extends FooController {
+class classAdminController extends FooController
+{
 
     public $obj_item = NULL;
     public $obj_category = NULL;
@@ -31,12 +34,13 @@ class classAdminController extends FooController {
     public $slideshow = NULL;
 
 
-    public function __construct(Request $request) {
+    public function __construct(Request $request)
+    {
 
         parent::__construct();
 
         //models
-        $this->obj_item = new class(array('perPage' => 10));
+        $this->obj_item = new Classes(array('perPage' => 10));
         $this->obj_category = new Category();
         $this->obj_slideshow = new Slideshow();
 
@@ -57,10 +61,10 @@ class classAdminController extends FooController {
         //page views
         $this->page_views = [
             'admin' => [
-                'items' => $this->package_name.'::admin.'.$this->package_base_name.'-items',
-                'edit'  => $this->package_name.'::admin.'.$this->package_base_name.'-edit',
-                'config'  => $this->package_name.'::admin.'.$this->package_base_name.'-config',
-                'lang'  => $this->package_name.'::admin.'.$this->package_base_name.'-lang',
+                'items' => $this->package_name . '::admin.' . $this->package_base_name . '-items',
+                'edit'  => $this->package_name . '::admin.' . $this->package_base_name . '-edit',
+                'config'  => $this->package_name . '::admin.' . $this->package_base_name . '-config',
+                'lang'  => $this->package_name . '::admin.' . $this->package_base_name . '-lang',
             ]
         ];
 
@@ -88,7 +92,6 @@ class classAdminController extends FooController {
          */
         $this->breadcrumb_1['label'] = 'Admin';
         $this->breadcrumb_2['label'] = 'classes';
-
     }
 
     /**
@@ -96,7 +99,8 @@ class classAdminController extends FooController {
      * @return view list of items
      * @date 27/12/2017
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
 
         /**
          * Breadcrumb
@@ -114,14 +118,12 @@ class classAdminController extends FooController {
          */
         $is_admin = $this->hasPermissions(array('_superadmin'));
 
-        if ($is_admin ) {
-
+        if ($is_admin) {
         } else if (empty($params['user_id']) || ($params['user_id'] != $user['user_id'])) {
 
             return redirect()->route('classes.list', ['user_id' => $user['user_id']]);
-
         }
-        
+
         $items = $this->obj_item->selectItems($params);
 
         // display view
@@ -146,7 +148,8 @@ class classAdminController extends FooController {
      * @return view edit page
      * @date 26/12/2017
      */
-    public function edit(Request $request) {
+    public function edit(Request $request)
+    {
 
         /**
          * Breadcrumb
@@ -168,7 +171,6 @@ class classAdminController extends FooController {
         $user = $this->getUser();
 
         if ($is_admin) {
-
         } else {
             $params['user_id'] = $user['user_id'];
         }
@@ -179,8 +181,8 @@ class classAdminController extends FooController {
             $item = $this->obj_item->selectItem($params, FALSE);
 
             if (empty($item)) {
-                return Redirect::route($this->root_router.'.list')
-                                ->withMessage(trans($this->plang_admin.'.actions.edit-error'));
+                return Redirect::route($this->root_router . '.list')
+                    ->withMessage(trans($this->plang_admin . '.actions.edit-error'));
             }
         }
 
@@ -200,8 +202,9 @@ class classAdminController extends FooController {
      * @return view edit page
      * @date 27/12/2017
      */
-    public function class(Request $request) {
-        
+    public function class(Request $request)
+    {
+
         $item = NULL;
 
         $params = array_merge($request->all(), $this->getUser());
@@ -210,7 +213,7 @@ class classAdminController extends FooController {
 
         $id = (int) $request->get('id');
 
-        if ($is_valid_request && $this->obj_validator->validate($params)) {// valid data
+        if ($is_valid_request && $this->obj_validator->validate($params)) { // valid data
 
             // update existing item
             if (!empty($id)) {
@@ -222,16 +225,16 @@ class classAdminController extends FooController {
                     $item = $this->obj_item->updateItem($params, $id);
 
                     // message
-                    return Redirect::route($this->root_router.'.edit', ["id" => $item->id])
-                                    ->withMessage(trans($this->plang_admin.'.actions.edit-ok'));
+                    return Redirect::route($this->root_router . '.edit', ["id" => $item->id])
+                        ->withMessage(trans($this->plang_admin . '.actions.edit-ok'));
                 } else {
 
                     // message
-                    return Redirect::route($this->root_router.'.list')
-                                    ->withMessage(trans($this->plang_admin.'.actions.edit-error'));
+                    return Redirect::route($this->root_router . '.list')
+                        ->withMessage(trans($this->plang_admin . '.actions.edit-error'));
                 }
 
-            // add new item
+                // add new item
             } else {
 
                 $item = $this->obj_item->insertItem($params);
@@ -239,24 +242,22 @@ class classAdminController extends FooController {
                 if (!empty($item)) {
 
                     //message
-                    return Redirect::route($this->root_router.'.edit', ["id" => $item->id])
-                                    ->withMessage(trans($this->plang_admin.'.actions.add-ok'));
+                    return Redirect::route($this->root_router . '.edit', ["id" => $item->id])
+                        ->withMessage(trans($this->plang_admin . '.actions.add-ok'));
                 } else {
 
                     //message
-                    return Redirect::route($this->root_router.'.edit', ["id" => $item->id])
-                                    ->withMessage(trans($this->plang_admin.'.actions.add-error'));
+                    return Redirect::route($this->root_router . '.edit', ["id" => $item->id])
+                        ->withMessage(trans($this->plang_admin . '.actions.add-error'));
                 }
-
             }
-
         } else { // invalid data
 
             $errors = $this->obj_validator->getErrors();
 
             // passing the id incase fails editing an already existing item
-            return Redirect::route($this->root_router.'.edit', $id ? ["id" => $id]: [])
-                    ->withInput()->withErrors($errors);
+            return Redirect::route($this->root_router . '.edit', $id ? ["id" => $id] : [])
+                ->withInput()->withErrors($errors);
         }
     }
 
@@ -265,12 +266,13 @@ class classAdminController extends FooController {
      * @return view list of items
      * @date 27/12/2017
      */
-    public function delete(Request $request) {
+    public function delete(Request $request)
+    {
 
         $item = NULL;
         $flag = TRUE;
         $params = array_merge($request->all(), $this->getUser());
-        $delete_type = isset($params['del-forever'])?'delete-forever':'delete-trash';
+        $delete_type = isset($params['del-forever']) ? 'delete-forever' : 'delete-trash';
         $id = (int)$request->get('id');
         $ids = $request->get('ids');
 
@@ -278,7 +280,7 @@ class classAdminController extends FooController {
 
         if ($is_valid_request && (!empty($id) || !empty($ids))) {
 
-            $ids = !empty($id)?[$id]:$ids;
+            $ids = !empty($id) ? [$id] : $ids;
 
             foreach ($ids as $id) {
 
@@ -289,13 +291,13 @@ class classAdminController extends FooController {
                 }
             }
             if ($flag) {
-                return Redirect::route($this->root_router.'.list')
-                                ->withMessage(trans($this->plang_admin.'.actions.delete-ok'));
+                return Redirect::route($this->root_router . '.list')
+                    ->withMessage(trans($this->plang_admin . '.actions.delete-ok'));
             }
         }
 
-        return Redirect::route($this->root_router.'.list')
-                        ->withMessage(trans($this->plang_admin.'.actions.delete-error'));
+        return Redirect::route($this->root_router . '.list')
+            ->withMessage(trans($this->plang_admin . '.actions.delete-error'));
     }
 
     /**
@@ -303,7 +305,8 @@ class classAdminController extends FooController {
      * @param Request $request
      * @return view config page
      */
-    public function config(Request $request) {
+    public function config(Request $request)
+    {
 
 
         /**
@@ -316,9 +319,9 @@ class classAdminController extends FooController {
         $config_path = realpath(base_path('config/package-class.php'));
         $package_path = realpath(base_path('vendor/foostart/package-class'));
 
-        $config_bakup = $package_path.'/storage/backup/config';
+        $config_bakup = $package_path . '/storage/backup/config';
         if (!file_exists($config_bakup)) {
-            mkdir($config_bakup, 0755    , true);
+            mkdir($config_bakup, 0755, true);
         }
         $config_bakup = realpath($config_bakup);
 
@@ -333,7 +336,7 @@ class classAdminController extends FooController {
         if ($request->isMethod('class') && $is_valid_request) {
 
             //create backup of current config
-            file_put_contents($config_bakup.'/package-class-'.date('YmdHis',time()).'.php', $content);
+            file_put_contents($config_bakup . '/package-class-' . date('YmdHis', time()) . '.php', $content);
 
             //update new config
             $content = $request->get('content');
@@ -341,7 +344,7 @@ class classAdminController extends FooController {
             file_put_contents($config_path, $content);
         }
 
-        $backups = array_reverse(glob($config_bakup.'/*'));
+        $backups = array_reverse(glob($config_bakup . '/*'));
 
         $this->data_view = array_merge($this->data_view, array(
             'request' => $request,
@@ -361,7 +364,8 @@ class classAdminController extends FooController {
      * @param Request $request
      * @return view lang page
      */
-    public function lang(Request $request) {
+    public function lang(Request $request)
+    {
 
 
         /**
@@ -377,31 +381,30 @@ class classAdminController extends FooController {
 
         if (!empty($langs) && is_array($langs)) {
             foreach ($langs as $key => $value) {
-                $lang_paths[$key] = realpath(base_path('resources/lang/'.$key.'/class-admin.php'));
+                $lang_paths[$key] = realpath(base_path('resources/lang/' . $key . '/class-admin.php'));
 
-                $key_backup = $package_path.'/storage/backup/lang/'.$key;
+                $key_backup = $package_path . '/storage/backup/lang/' . $key;
 
                 if (!file_exists($key_backup)) {
-                    mkdir($key_backup, 0755    , true);
+                    mkdir($key_backup, 0755, true);
                 }
             }
         }
 
 
-        $lang_bakup = realpath($package_path.'/storage/backup/lang');
-        $lang = $request->get('lang')?$request->get('lang'):'en';
+        $lang_bakup = realpath($package_path . '/storage/backup/lang');
+        $lang = $request->get('lang') ? $request->get('lang') : 'en';
         $lang_contents = [];
 
         if ($version = $request->get('v')) {
             //load backup lang
             $group_backups = base64_decode($version);
-            $group_backups = empty($group_backups)?[]: explode(';', $group_backups);
+            $group_backups = empty($group_backups) ? [] : explode(';', $group_backups);
 
             foreach ($group_backups as $group_backup) {
                 $_backup = explode('=', $group_backup);
                 $lang_contents[$_backup[0]] = file_get_contents($_backup[1]);
             }
-
         } else {
             //load current lang
             foreach ($lang_paths as $key => $lang_path) {
@@ -416,7 +419,7 @@ class classAdminController extends FooController {
                 $content = file_get_contents($value);
 
                 //format file name class-admin-YmdHis.php
-                file_put_contents($lang_bakup.'/'.$key.'/class-admin-'.date('YmdHis',time()).'.php', $content);
+                file_put_contents($lang_bakup . '/' . $key . '/class-admin-' . date('YmdHis', time()) . '.php', $content);
             }
 
 
@@ -425,13 +428,12 @@ class classAdminController extends FooController {
                 $content = $request->get($key);
                 file_put_contents($lang_paths[$key], $content);
             }
-
         }
 
         //get list of backup langs
         $backups = [];
         foreach ($langs as $key => $value) {
-            $backups[$key] = array_reverse(glob($lang_bakup.'/'.$key.'/*'));
+            $backups[$key] = array_reverse(glob($lang_bakup . '/' . $key . '/*'));
         }
 
         $this->data_view = array_merge($this->data_view, array(
@@ -454,7 +456,8 @@ class classAdminController extends FooController {
      * @return view edit page
      * @date 26/12/2017
      */
-    public function copy(Request $request) {
+    public function copy(Request $request)
+    {
 
         /**
          * Breadcrumb
@@ -473,8 +476,8 @@ class classAdminController extends FooController {
             $item = $this->obj_item->selectItem($params, FALSE);
 
             if (empty($item)) {
-                return Redirect::route($this->root_router.'.list')
-                                ->withMessage(trans($this->plang_admin.'.actions.edit-error'));
+                return Redirect::route($this->root_router . '.list')
+                    ->withMessage(trans($this->plang_admin . '.actions.edit-error'));
             }
 
             $item->id = NULL;
@@ -493,6 +496,4 @@ class classAdminController extends FooController {
 
         return view($this->page_views['admin']['edit'], $this->data_view);
     }
-
-
 }
