@@ -1,4 +1,4 @@
-<?php namespace Foostart\class\Controllers\Front;
+<?php namespace leliem523\Classes\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

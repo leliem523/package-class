@@ -1,9 +1,11 @@
-<?php namespace Foostart\Class\Validators;
+<?php
+
+namespace leliem523\Classes\Validators;
 
 use Foostart\Category\Library\Validators\FooValidator;
 use Event;
 use \LaravelAcl\Library\Validators\AbstractValidator;
-use Foostart\Class\Models\Class;
+use leliem523\Classes\Models\Classes;
 
 use Illuminate\Support\MessageBag as MessageBag;
 
@@ -25,23 +27,20 @@ class ClassValidator extends FooValidator
         self::$configs = $this->loadConfigs();
 
         // model
-        $this->obj_class = new Class();
+        $this->obj_class = new Classes();
 
         // language
         $this->lang_front = 'class-front';
         $this->lang_admin = 'class-admin';
 
         // event listening
-        Event::listen('validating', function($input)
-        {
+        Event::listen('validating', function ($input) {
             self::$messages = [
-                'class_name.required'          => trans($this->lang_admin.'.errors.required', ['attribute' => trans($this->lang_admin.'.fields.name')]),
-                'class_overview.required'      => trans($this->lang_admin.'.errors.required', ['attribute' => trans($this->lang_admin.'.fields.overview')]),
-                'class_description.required'   => trans($this->lang_admin.'.errors.required', ['attribute' => trans($this->lang_admin.'.fields.description')]),
+                'class_name.required'          => trans($this->lang_admin . '.errors.required', ['attribute' => trans($this->lang_admin . '.fields.name')]),
+                'class_overview.required'      => trans($this->lang_admin . '.errors.required', ['attribute' => trans($this->lang_admin . '.fields.overview')]),
+                'class_description.required'   => trans($this->lang_admin . '.errors.required', ['attribute' => trans($this->lang_admin . '.fields.description')]),
             ];
         });
-
-
     }
 
     /**
@@ -49,7 +48,8 @@ class ClassValidator extends FooValidator
      * @param ARRAY $input is form data
      * @return type
      */
-    public function validate($input) {
+    public function validate($input)
+    {
 
         $flag = parent::validate($input);
         $this->errors = $this->errors ? $this->errors : new MessageBag();
@@ -60,19 +60,19 @@ class ClassValidator extends FooValidator
         $params = [
             'name' => [
                 'key' => 'class_name',
-                'label' => trans($this->lang_admin.'.fields.name'),
+                'label' => trans($this->lang_admin . '.fields.name'),
                 'min' => $_ln['class_name']['min'],
                 'max' => $_ln['class_name']['max'],
             ],
             'overview' => [
                 'key' => 'class_overview',
-                'label' => trans($this->lang_admin.'.fields.overview'),
+                'label' => trans($this->lang_admin . '.fields.overview'),
                 'min' => $_ln['class_overview']['min'],
                 'max' => $_ln['class_overview']['max'],
             ],
             'description' => [
                 'key' => 'class_description',
-                'label' => trans($this->lang_admin.'.fields.description'),
+                'label' => trans($this->lang_admin . '.fields.description'),
                 'min' => $_ln['class_description']['min'],
                 'max' => $_ln['class_description']['max'],
             ],
@@ -90,10 +90,10 @@ class ClassValidator extends FooValidator
      * Load configuration
      * @return ARRAY $configs list of configurations
      */
-    public function loadConfigs(){
+    public function loadConfigs()
+    {
 
         $configs = config('package-class');
         return $configs;
     }
-
 }

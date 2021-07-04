@@ -1,4 +1,4 @@
-<?php namespace Foostart\class\Controllers\Admin;
+<?php namespace leliem523\classes\Controllers\Admin;
 
 /*
 |-----------------------------------------------------------------------
@@ -16,10 +16,10 @@ use URL, Route, Redirect;
 use Illuminate\Support\Facades\App;
 
 use Foostart\Category\Library\Controllers\FooController;
-use Foostart\class\Models\class;
+use leliem523\Classes\Models\Classes;
 use Foostart\Category\Models\Category;
 use Foostart\Slideshow\Models\Slideshow;
-use Foostart\class\Validators\classValidator;
+use leliem523\Classes\Validators\classValidator;
 
 
 class classAdminController extends FooController {

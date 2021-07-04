@@ -1,10 +1,11 @@
-<?php namespace Foostart\Class\Models;
+<?php 
+namespace leliem523\Classes\Models;
 
 use Foostart\Category\Library\Models\FooModel;
 use Illuminate\Database\Eloquent\Model;
 use Foostart\Comment\Models\Comment;
 
-class Class extends FooModel {
+class Classes extends FooModel {
 
     /**
      * @table categories

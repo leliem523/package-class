@@ -1,6 +1,5 @@
 <?php
-
-namespace Foostart\Class;
+namespace leliem523\Classes;
 
 use Illuminate\Support\ServiceProvider;
 use LaravelAcl\Authentication\Classes\Menu\SentryMenuFactory;

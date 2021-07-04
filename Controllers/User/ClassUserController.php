@@ -1,4 +1,4 @@
-<?php namespace Foostart\class\Controllers\User;
+<?php namespace leliem523\Classes\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
